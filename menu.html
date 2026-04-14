@@ -1,1 +1,839 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Menu — Cafemilya | Coffee, Food & Drinks in Cainta, Rizal</title>
+  <meta name="description" content="Full menu of Cafemilya — specialty coffee, all-day breakfast, pasta, batchoy, frappes, milktea, smoothies, and more. Para sa mataTAPAng!" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,600;1,700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --brown:   #3B1F0E;
+      --brown2:  #5C2E10;
+      --amber:   #A0522D;
+      --amber2:  #C1693A;
+      --cream:   #F5EBE0;
+      --cream2:  #EDE0D0;
+      --parch:   #E4D5C1;
+      --muted:   #8A7060;
+      --ink:     #2C1A0E;
+      --border:  rgba(90,46,16,0.12);
+      --border2: rgba(90,46,16,0.20);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { background: var(--cream); }
+    body { font-family: 'Outfit', sans-serif; background: var(--cream); color: var(--ink); overflow-x: hidden; }
+    .serif { font-family: 'Playfair Display', serif; }
 
+    body::after { content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 9999; opacity: .025;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='500' height='500'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.88' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
+
+    /* NAV — identical to index.html */
+    .glass-nav { backdrop-filter: blur(22px); -webkit-backdrop-filter: blur(22px); background: rgba(245,235,224,.93); border-bottom: 1px solid var(--border); }
+    .nav-link { position: relative; }
+    .nav-link::after { content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 1.5px; background: var(--amber); transition: width .35s cubic-bezier(.4,0,.2,1); }
+    .nav-link:hover::after { width: 100%; }
+    .nav-link.active::after { width: 100%; }
+
+    .btn-brown { background: var(--brown); color: var(--cream); border-radius: 8px; font-weight: 600; letter-spacing: .03em; position: relative; overflow: hidden; transition: transform .22s ease, box-shadow .22s ease; box-shadow: 0 4px 18px -4px rgba(59,31,14,.35); }
+    .btn-brown::before { content: ''; position: absolute; top: 0; left: -80%; width: 50%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,.10), transparent); transform: skewX(-20deg); transition: left .55s ease; }
+    .btn-brown:hover::before { left: 130%; }
+    .btn-brown:hover { transform: translateY(-2px); box-shadow: 0 8px 26px -6px rgba(59,31,14,.45); }
+    .btn-amber { background: var(--amber); color: #fff; border-radius: 8px; font-weight: 600; transition: transform .22s ease, box-shadow .22s ease, background .22s; box-shadow: 0 4px 18px -4px rgba(160,82,45,.38); }
+    .btn-amber:hover { background: var(--amber2); transform: translateY(-2px); box-shadow: 0 8px 26px -6px rgba(160,82,45,.48); }
+
+    /* MENU CARDS */
+    .menu-item { border-radius: 14px; border: 1px solid var(--border); background: #fff; transition: transform .28s ease, box-shadow .28s ease, border-color .28s; }
+    .menu-item:hover { transform: translateY(-5px); box-shadow: 0 18px 45px -12px rgba(59,31,14,.13); border-color: var(--border2); }
+    .menu-item:hover .item-icon { background: var(--amber); color: #fff; }
+
+    .item-icon { width: 36px; height: 36px; border-radius: 10px; background: rgba(160,82,45,.09); color: var(--amber); display: flex; align-items: center; justify-content: center; transition: background .22s, color .22s; flex-shrink: 0; }
+
+    /* CATEGORY HEADER */
+    .cat-header { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
+    .cat-icon { width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1rem; }
+    .cat-divider { flex: 1; height: 1px; background: var(--border2); }
+
+    /* SECTION TABS */
+    .tab-btn { padding: 8px 18px; border-radius: 99px; font-size: .82rem; font-weight: 600; transition: background .22s, color .22s, box-shadow .22s; border: 1px solid var(--border2); color: var(--muted); background: transparent; cursor: pointer; }
+    .tab-btn:hover { border-color: var(--amber); color: var(--amber); }
+    .tab-btn.active { background: var(--brown); color: var(--cream); border-color: var(--brown); box-shadow: 0 4px 14px -4px rgba(59,31,14,.35); }
+
+    /* SIZE TABLE */
+    .size-row { display: flex; justify-content: space-between; align-items: center; padding: 4px 0; border-bottom: 1px solid var(--border); }
+    .size-row:last-child { border-bottom: none; }
+    .size-label { font-size: .68rem; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; }
+    .price-val { font-family: 'Playfair Display', serif; font-weight: 700; color: var(--amber); font-size: .95rem; }
+
+    /* ADD-ON PILL */
+    .addon-pill { display: inline-flex; align-items: center; gap: 5px; padding: 4px 12px; border-radius: 99px; background: rgba(160,82,45,.09); border: 1px solid rgba(160,82,45,.16); font-size: .68rem; font-weight: 600; color: var(--amber); }
+
+    /* REVEAL */
+    .reveal { opacity: 0; transform: translateY(22px); transition: opacity .65s cubic-bezier(.22,1,.36,1), transform .65s cubic-bezier(.22,1,.36,1); }
+    .reveal.in { opacity: 1; transform: none; }
+    .d1{transition-delay:.06s} .d2{transition-delay:.12s} .d3{transition-delay:.18s}
+    .d4{transition-delay:.24s} .d5{transition-delay:.30s} .d6{transition-delay:.36s}
+    .d7{transition-delay:.42s} .d8{transition-delay:.48s}
+
+    /* SOCIAL */
+    .sbtn { width: 40px; height: 40px; border-radius: 10px; border: 1px solid rgba(255,255,255,.12); display: flex; align-items: center; justify-content: center; transition: background .22s, transform .22s; color: rgba(255,255,255,.55); }
+    .sbtn:hover { background: var(--amber); color: #fff; transform: translateY(-2px); }
+
+    /* FAB */
+    .fab { position: fixed; bottom: 22px; right: 22px; z-index: 100; background: var(--brown); color: var(--cream); border-radius: 50px; padding: 13px 20px; font-family: 'Outfit', sans-serif; font-size: .78rem; font-weight: 700; letter-spacing: .04em; text-decoration: none; box-shadow: 0 8px 28px -6px rgba(59,31,14,.45); transition: transform .22s ease, box-shadow .22s ease; display: flex; align-items: center; gap: 7px; }
+    .fab:hover { transform: translateY(-3px); box-shadow: 0 12px 36px -8px rgba(59,31,14,.55); }
+
+    /* MOBILE MENU */
+    #mob { display: none; } #mob.open { display: block; }
+
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: var(--cream); }
+    ::-webkit-scrollbar-thumb { background: var(--amber); border-radius: 99px; }
+  </style>
+</head>
+<body class="antialiased">
+
+<!-- FAB -->
+<a href="tel:+639095129185" class="fab" aria-label="Call Cafemilya to order">
+  <i class="fa-solid fa-phone" style="font-size:.75rem"></i> Call to Order
+</a>
+
+<!-- ═══ NAV — identical to index.html ═══ -->
+<header class="glass-nav fixed top-0 left-0 right-0 z-50">
+  <div class="max-w-6xl mx-auto px-5 md:px-10 h-16 flex items-center justify-between">
+    <a href="index.html" class="flex items-center gap-2.5 select-none">
+      <div class="w-9 h-9 rounded-xl flex items-center justify-center" style="background:var(--brown)">
+        <i class="fa-solid fa-mug-hot text-sm" style="color:var(--cream)"></i>
+      </div>
+      <div>
+        <div class="serif font-bold text-lg leading-none" style="color:var(--brown)">Cafemilya</div>
+        <div class="text-[10px] font-medium tracking-widest uppercase" style="color:var(--amber)">Cainta, Rizal</div>
+      </div>
+    </a>
+    <nav class="hidden md:flex items-center gap-8">
+      <a href="menu.html" class="nav-link active text-sm font-medium transition-colors" style="color:var(--amber)">Menu</a>
+      <a href="index.html#about" class="nav-link text-sm font-medium text-stone-500 hover:text-stone-900 transition-colors">About</a>
+      <a href="index.html#reviews" class="nav-link text-sm font-medium text-stone-500 hover:text-stone-900 transition-colors">Reviews</a>
+      <a href="index.html#location" class="nav-link text-sm font-medium text-stone-500 hover:text-stone-900 transition-colors">Location</a>
+      <a href="tel:+639095129185" class="btn-brown px-5 py-2.5 text-sm inline-block">
+        <i class="fa-solid fa-phone mr-1.5" style="font-size:.7rem"></i>Order Now
+      </a>
+    </nav>
+    <button id="ham" class="md:hidden p-2 rounded-lg hover:bg-stone-100 transition-colors" aria-label="Open menu" aria-expanded="false">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+    </button>
+  </div>
+  <div id="mob" class="md:hidden border-t border-stone-100 bg-white/95 backdrop-blur-lg">
+    <div class="px-5 py-4 flex flex-col gap-1">
+      <a href="menu.html" class="py-3 px-3 text-sm font-semibold rounded-lg" style="color:var(--amber); background:rgba(160,82,45,.07)">Menu</a>
+      <a href="index.html#about" class="py-3 px-3 text-sm font-medium text-stone-600 hover:bg-stone-50 rounded-lg transition-colors">About</a>
+      <a href="index.html#reviews" class="py-3 px-3 text-sm font-medium text-stone-600 hover:bg-stone-50 rounded-lg transition-colors">Reviews</a>
+      <a href="index.html#location" class="py-3 px-3 text-sm font-medium text-stone-600 hover:bg-stone-50 rounded-lg transition-colors">Location</a>
+      <a href="tel:+639095129185" class="mt-2 btn-brown text-center py-3 text-sm inline-block rounded-lg">Call to Order</a>
+    </div>
+  </div>
+</header>
+
+<!-- ═══ MENU PAGE HERO ═══ -->
+<main>
+<section class="pt-32 pb-16" style="background:var(--brown)">
+  <div class="max-w-6xl mx-auto px-5 md:px-10">
+    <div class="grid md:grid-cols-2 gap-10 items-center">
+      <div>
+        <div class="inline-flex items-center gap-2 mb-6 px-4 py-2 rounded-full" style="background:rgba(232,184,122,.12); border:1px solid rgba(232,184,122,.22)">
+          <i class="fa-solid fa-book-open" style="color:#E8B87A; font-size:.75rem"></i>
+          <span class="text-xs font-bold tracking-widest uppercase" style="color:#E8B87A">Full Menu · Cafemilya</span>
+        </div>
+        <h1 class="serif text-5xl md:text-6xl font-bold text-white leading-tight mb-4">
+          Baked with<br/><em style="color:#E8B87A">love &amp; warmth.</em>
+        </h1>
+        <p class="text-white/50 text-sm leading-relaxed max-w-md">
+          Coffee, food, drinks — everything on this menu is made to make you feel at home. <strong class="text-white/70">Para sa mataTAPAng.</strong>
+        </p>
+      </div>
+      <div class="hidden md:flex flex-col gap-3">
+        <div class="grid grid-cols-3 gap-3">
+          <div class="rounded-2xl p-4 text-center" style="background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.08)">
+            <div class="text-2xl mb-1"><i class="fa-solid fa-mug-hot" style="color:#E8B87A"></i></div>
+            <div class="text-xs text-white/50">Coffee</div>
+            <div class="text-white font-semibold text-sm mt-0.5">₱85+</div>
+          </div>
+          <div class="rounded-2xl p-4 text-center" style="background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.08)">
+            <div class="text-2xl mb-1"><i class="fa-solid fa-bowl-food" style="color:#E8B87A"></i></div>
+            <div class="text-xs text-white/50">Food</div>
+            <div class="text-white font-semibold text-sm mt-0.5">₱140+</div>
+          </div>
+          <div class="rounded-2xl p-4 text-center" style="background:rgba(232,184,122,.12); border:1px solid rgba(232,184,122,.22)">
+            <div class="text-2xl mb-1"><i class="fa-solid fa-blender" style="color:#E8B87A"></i></div>
+            <div class="text-xs text-white/50">Frappes</div>
+            <div class="text-white font-semibold text-sm mt-0.5">₱140+</div>
+          </div>
+        </div>
+        <div class="rounded-2xl p-4 flex items-center gap-4" style="background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.07)">
+          <i class="fa-solid fa-circle-info" style="color:#E8B87A; font-size:1.1rem"></i>
+          <div>
+            <div class="text-white text-sm font-medium">DECAF available on request</div>
+            <div class="text-white/40 text-xs">Free espresso shot for first-time visitors!</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick-jump tabs -->
+    <div class="flex flex-wrap gap-2 mt-12 pb-2" id="menu-tabs">
+      <button class="tab-btn active" onclick="scrollTo('drinks')">☕ Drinks</button>
+      <button class="tab-btn" onclick="scrollTo('food')">🍳 Food</button>
+      <button class="tab-btn" onclick="scrollTo('addons')">➕ Add-ons</button>
+    </div>
+  </div>
+</section>
+
+<!-- Curved edge -->
+<div class="h-12 rounded-t-[36px]" style="background:var(--cream); margin-top:-2px"></div>
+
+<!-- ═══ DRINKS SECTION ═══ -->
+<div id="drinks" class="max-w-6xl mx-auto px-5 md:px-10 pb-4">
+
+  <!-- ── COFFEE ── -->
+  <div class="mb-16">
+    <div class="cat-header reveal">
+      <div class="cat-icon" style="background:rgba(59,31,14,.10); color:var(--brown)">
+        <i class="fa-solid fa-mug-hot"></i>
+      </div>
+      <div>
+        <h2 class="serif text-2xl font-bold" style="color:var(--brown)">Coffee</h2>
+        <p class="text-xs" style="color:var(--muted)">Hot 8oz / 12oz &nbsp;·&nbsp; Iced 16oz / 22oz &nbsp;·&nbsp; DECAF on request</p>
+      </div>
+      <div class="cat-divider"></div>
+    </div>
+
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+
+      <div class="menu-item p-5 reveal d1">
+        <div class="flex items-start gap-3 mb-4">
+          <div class="item-icon"><i class="fa-solid fa-mug-hot" style="font-size:.85rem"></i></div>
+          <div><h3 class="font-semibold text-base" style="color:var(--brown)">Americano</h3><p class="text-xs" style="color:var(--muted)">Classic espresso &amp; water</p></div>
+        </div>
+        <div class="space-y-1">
+          <div class="size-row"><span class="size-label">Hot 8oz</span><span class="price-val">₱85</span></div>
+          <div class="size-row"><span class="size-label">Hot 12oz</span><span class="price-val">₱95</span></div>
+          <div class="size-row"><span class="size-label">Iced 16oz</span><span class="price-val">₱115</span></div>
+          <div class="size-row"><span class="size-label">Iced 22oz</span><span class="price-val">₱125</span></div>
+        </div>
+      </div>
+
+      <div class="menu-item p-5 reveal d2">
+        <div class="flex items-start gap-3 mb-4">
+          <div class="item-icon"><i class="fa-solid fa-coffee" style="font-size:.85rem"></i></div>
+          <div><h3 class="font-semibold text-base" style="color:var(--brown)">Cafe Latte</h3><p class="text-xs" style="color:var(--muted)">Espresso &amp; steamed milk</p></div>
+        </div>
+        <div class="space-y-1">
+          <div class="size-row"><span class="size-label">Hot 8oz</span><span class="price-val">₱95</span></div>
+          <div class="size-row"><span class="size-label">Hot 12oz</span><span class="price-val">₱108</span></div>
+          <div class="size-row"><span class="size-label">Iced 16oz</span><span class="price-val">₱110</span></div>
+          <div class="size-row"><span class="size-label">Iced 22oz</span><span class="price-val">₱130</span></div>
+        </div>
+      </div>
+
+      <div class="menu-item p-5 reveal d3" style="border-color:rgba(160,82,45,.22)">
+        <div class="flex items-start gap-3 mb-3">
+          <div class="item-icon" style="background:rgba(160,82,45,.14)"><i class="fa-solid fa-star" style="font-size:.85rem"></i></div>
+          <div>
+            <div class="flex items-center gap-2">
+              <h3 class="font-semibold text-base" style="color:var(--brown)">Spanish Latte</h3>
+              <span class="text-[10px] font-bold tracking-widest px-2 py-0.5 rounded-full" style="background:var(--amber); color:#fff">BEST</span>
+            </div>
+            <p class="text-xs" style="color:var(--muted)">Espresso, condensed &amp; milk</p>
+          </div>
+        </div>
+        <div class="space-y-1">
+          <div class="size-row"><span class="size-label">Hot 8oz</span><span class="price-val">₱108</span></div>
+          <div class="size-row"><span class="size-label">Hot 12oz</span><span class="price-val">₱120</span></div>
+          <div class="size-row"><span class="size-label">Iced 16oz</span><span class="price-val">₱130</span></div>
+          <div class="size-row"><span class="size-label">Iced 22oz</span><span class="price-val">₱150</span></div>
+        </div>
+      </div>
+
+      <div class="menu-item p-5 reveal d4">
+        <div class="flex items-start gap-3 mb-4">
+          <div class="item-icon"><i class="fa-solid fa-droplet" style="font-size:.85rem"></i></div>
+          <div><h3 class="font-semibold text-base" style="color:var(--brown)">Caramel Macchiato</h3><p class="text-xs" style="color:var(--muted)">Espresso &amp; caramel drizzle</p></div>
+        </div>
+        <div class="space-y-1">
+          <div class="size-row"><span class="size-label">Hot 8oz</span><span class="price-val">₱115</span></div>
+          <div class="size-row"><span class="size-label">Hot 12oz</span><span class="price-val">₱150</span></div>
+          <div class="size-row"><span class="size-label">Iced 16oz</span><span class="price-val">₱160</span></div>
+          <div class="size-row"><span class="size-label">Iced 22oz</span><span class="price-val">₱188</span></div>
+        </div>
+      </div>
+
+      <div class="menu-item p-5 reveal d5">
+        <div class="flex items-start gap-3 mb-4">
+          <div class="item-icon"><i class="fa-solid fa-snowflake" style="font-size:.85rem"></i></div>
+          <div><h3 class="font-semibold text-base" style="color:var(--brown)">White Mocha</h3><p class="text-xs" style="color:var(--muted)">Espresso &amp; white chocolate</p></div>
+        </div>
+        <div class="space-y-1">
+          <div class="size-row"><span class="size-label">Hot 8oz</span><span class="price-val">₱115</span></div>
+          <div class="size-row"><span class="size-label">Hot 12oz</span><span class="price-val">₱150</span></div>
+          <div class="size-row"><span class="size-label">Iced 16oz</span><span class="price-val">₱160</span></div>
+          <div class="size-row"><span class="size-label">Iced 22oz</span><span class="price-val">₱188</span></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── NON-COFFEE ── -->
+  <div class="mb-16">
+    <div class="cat-header reveal">
+      <div class="cat-icon" style="background:rgba(34,85,34,.10); color:#3a7a3a">
+        <i class="fa-solid fa-leaf"></i>
+      </div>
+      <div>
+        <h2 class="serif text-2xl font-bold" style="color:var(--brown)">Non-Coffee</h2>
+        <p class="text-xs" style="color:var(--muted)">Hot 8oz / 12oz &nbsp;·&nbsp; Iced 16oz / 22oz</p>
+      </div>
+      <div class="cat-divider"></div>
+    </div>
+
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+
+      <div class="menu-item p-5 reveal d1">
+        <div class="flex items-start gap-3 mb-4">
+          <div class="item-icon" style="background:rgba(80,40,10,.09); color:#7a4020"><i class="fa-solid fa-circle" style="font-size:.7rem"></i></div>
+          <div><h3 class="font-semibold text-base" style="color:var(--brown)">Chocolate</h3><p class="text-xs" style="color:var(--muted)">Rich chocolate drink</p></div>
+        </div>
+        <div class="space-y-1">
+          <div class="size-row"><span class="size-label">Hot 8oz</span><span class="price-val">₱95</span></div>
+          <div class="size-row"><span class="size-label">Hot 12oz</span><span class="price-val">₱120</span></div>
+          <div class="size-row"><span class="size-label">Iced 16oz</span><span class="price-val">₱125</span></div>
+          <div class="size-row"><span class="size-label">Iced 22oz</span><span class="price-val">₱135</span></div>
+        </div>
+      </div>
+
+      <div class="menu-item p-5 reveal d2">
+        <div class="flex items-start gap-3 mb-4">
+          <div class="item-icon" style="background:rgba(34,85,34,.09); color:#3a7a3a"><i class="fa-solid fa-leaf" style="font-size:.85rem"></i></div>
+          <div><h3 class="font-semibold text-base" style="color:var(--brown)">Classic Matcha</h3><p class="text-xs" style="color:var(--muted)">Premium green tea blend</p></div>
+        </div>
+        <div class="space-y-1">
+          <div class="size-row"><span class="size-label">Hot 8oz</span><span class="price-val">₱115</span></div>
+          <div class="size-row"><span class="size-label">Hot 12oz</span><span class="price-val">₱135</span></div>
+          <div class="size-row"><span class="size-label">Iced 16oz</span><span class="price-val">₱128</span></div>
+          <div class="size-row"><span class="size-label">Iced 22oz</span><span class="price-val">₱150</span></div>
+        </div>
+      </div>
+
+      <div class="menu-item p-5 reveal d3">
+        <div class="flex items-start gap-3 mb-4">
+          <div class="item-icon" style="background:rgba(34,85,34,.09); color:#3a7a3a"><i class="fa-solid fa-seedling" style="font-size:.85rem"></i></div>
+          <div><h3 class="font-semibold text-base" style="color:var(--brown)">Matcha Spanish Latte</h3><p class="text-xs" style="color:var(--muted)">Matcha &amp; condensed milk</p></div>
+        </div>
+        <div class="space-y-1">
+          <div class="size-row"><span class="size-label">Hot 8oz</span><span class="price-val">₱110</span></div>
+          <div class="size-row"><span class="size-label">Hot 12oz</span><span class="price-val">₱130</span></div>
+          <div class="size-row"><span class="size-label">Iced 16oz</span><span class="price-val">₱140</span></div>
+          <div class="size-row"><span class="size-label">Iced 22oz</span><span class="price-val">₱165</span></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── MILKTEA ── -->
+  <div class="mb-16">
+    <div class="cat-header reveal">
+      <div class="cat-icon" style="background:rgba(120,60,150,.10); color:#8040A0">
+        <i class="fa-solid fa-cup-straw"></i>
+      </div>
+      <div>
+        <h2 class="serif text-2xl font-bold" style="color:var(--brown)">Milktea</h2>
+        <p class="text-xs" style="color:var(--muted)">16oz &nbsp;·&nbsp; 22oz</p>
+      </div>
+      <div class="cat-divider"></div>
+    </div>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+
+      <div class="menu-item p-5 reveal d1">
+        <h3 class="font-semibold text-sm mb-1" style="color:var(--brown)">Wintermelon</h3>
+        <p class="text-xs mb-3" style="color:var(--muted)">Classic creamy blend</p>
+        <div class="size-row"><span class="size-label">16oz</span><span class="price-val">₱90</span></div>
+        <div class="size-row"><span class="size-label">22oz</span><span class="price-val">₱110</span></div>
+      </div>
+
+      <div class="menu-item p-5 reveal d2">
+        <h3 class="font-semibold text-sm mb-1" style="color:var(--brown)">Cookies &amp; Cream</h3>
+        <p class="text-xs mb-3" style="color:var(--muted)">Oreo-inspired milktea</p>
+        <div class="size-row"><span class="size-label">16oz</span><span class="price-val">₱98</span></div>
+        <div class="size-row"><span class="size-label">22oz</span><span class="price-val">₱118</span></div>
+      </div>
+
+      <div class="menu-item p-5 reveal d3">
+        <h3 class="font-semibold text-sm mb-1" style="color:var(--brown)">Chocolate</h3>
+        <p class="text-xs mb-3" style="color:var(--muted)">Rich chocolate milktea</p>
+        <div class="size-row"><span class="size-label">16oz</span><span class="price-val">₱98</span></div>
+        <div class="size-row"><span class="size-label">22oz</span><span class="price-val">₱118</span></div>
+      </div>
+
+      <div class="menu-item p-5 reveal d4">
+        <h3 class="font-semibold text-sm mb-1" style="color:var(--brown)">Salted Caramel</h3>
+        <p class="text-xs mb-3" style="color:var(--muted)">Sweet &amp; salty perfection</p>
+        <div class="size-row"><span class="size-label">16oz</span><span class="price-val">₱98</span></div>
+        <div class="size-row"><span class="size-label">22oz</span><span class="price-val">₱120</span></div>
+      </div>
+
+      <div class="menu-item p-5 reveal d5">
+        <h3 class="font-semibold text-sm mb-1" style="color:var(--brown)">Matcha</h3>
+        <p class="text-xs mb-3" style="color:var(--muted)">Earthy green tea milktea</p>
+        <div class="size-row"><span class="size-label">16oz</span><span class="price-val">₱98</span></div>
+        <div class="size-row"><span class="size-label">22oz</span><span class="price-val">₱120</span></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── FRAPPE ── -->
+  <div class="mb-16">
+    <div class="cat-header reveal">
+      <div class="cat-icon" style="background:rgba(30,100,160,.10); color:#1e64a0">
+        <i class="fa-solid fa-blender"></i>
+      </div>
+      <div>
+        <h2 class="serif text-2xl font-bold" style="color:var(--brown)">Frappe</h2>
+        <p class="text-xs" style="color:var(--muted)">16oz cold blended</p>
+      </div>
+      <div class="cat-divider"></div>
+    </div>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+
+      <div class="menu-item p-5 reveal d1">
+        <h3 class="font-semibold text-sm mb-1" style="color:var(--brown)">Chocolate</h3>
+        <p class="text-xs mb-3" style="color:var(--muted)">Classic cold blend</p>
+        <div class="size-row"><span class="size-label">16oz</span><span class="price-val">₱140</span></div>
+      </div>
+
+      <div class="menu-item p-5 reveal d2">
+        <h3 class="font-semibold text-sm mb-1" style="color:var(--brown)">Matcha</h3>
+        <p class="text-xs mb-3" style="color:var(--muted)">Green tea frappe</p>
+        <div class="size-row"><span class="size-label">16oz</span><span class="price-val">₱145</span></div>
+      </div>
+
+      <div class="menu-item p-5 reveal d3">
+        <h3 class="font-semibold text-sm mb-1" style="color:var(--brown)">Java Chip</h3>
+        <p class="text-xs mb-3" style="color:var(--muted)">Coffee &amp; chocolate chips</p>
+        <div class="size-row"><span class="size-label">16oz</span><span class="price-val">₱145</span></div>
+      </div>
+
+      <div class="menu-item p-5 reveal d4">
+        <h3 class="font-semibold text-sm mb-1" style="color:var(--brown)">Red Velvet</h3>
+        <p class="text-xs mb-3" style="color:var(--muted)">Rich velvety blend</p>
+        <div class="size-row"><span class="size-label">16oz</span><span class="price-val">₱145</span></div>
+      </div>
+
+      <div class="menu-item p-5 reveal d5" style="border-color:rgba(160,82,45,.22)">
+        <div class="flex items-center gap-1 mb-1">
+          <h3 class="font-semibold text-sm" style="color:var(--brown)">Salted Caramel</h3>
+          <span class="text-[9px] font-bold px-1.5 py-0.5 rounded" style="background:var(--amber); color:#fff">TOP</span>
+        </div>
+        <p class="text-xs mb-3" style="color:var(--muted)">Crowd favourite</p>
+        <div class="size-row"><span class="size-label">16oz</span><span class="price-val">₱150</span></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── SMOOTHIES ── -->
+  <div class="mb-16">
+    <div class="cat-header reveal">
+      <div class="cat-icon" style="background:rgba(180,50,120,.10); color:#b43278">
+        <i class="fa-solid fa-bottle-droplet"></i>
+      </div>
+      <div>
+        <h2 class="serif text-2xl font-bold" style="color:var(--brown)">Smoothies</h2>
+        <p class="text-xs" style="color:var(--muted)">16oz blended</p>
+      </div>
+      <div class="cat-divider"></div>
+    </div>
+    <div class="grid sm:grid-cols-3 gap-4">
+
+      <div class="menu-item p-5 reveal d1">
+        <h3 class="font-semibold text-sm mb-1" style="color:var(--brown)">Bluemoon</h3>
+        <p class="text-xs mb-3" style="color:var(--muted)">Blueberry &amp; cream blend</p>
+        <div class="size-row"><span class="size-label">16oz</span><span class="price-val">₱110</span></div>
+      </div>
+
+      <div class="menu-item p-5 reveal d2">
+        <h3 class="font-semibold text-sm mb-1" style="color:var(--brown)">Strawberry Cheesecake</h3>
+        <p class="text-xs mb-3" style="color:var(--muted)">Creamy strawberry blend</p>
+        <div class="size-row"><span class="size-label">16oz</span><span class="price-val">₱120</span></div>
+      </div>
+
+      <div class="menu-item p-5 reveal d3">
+        <h3 class="font-semibold text-sm mb-1" style="color:var(--brown)">Blueberry Cheesecake</h3>
+        <p class="text-xs mb-3" style="color:var(--muted)">Tangy blueberry blend</p>
+        <div class="size-row"><span class="size-label">16oz</span><span class="price-val">₱120</span></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── SODA / TEA / JUICE ── -->
+  <div class="mb-16">
+    <div class="cat-header reveal">
+      <div class="cat-icon" style="background:rgba(20,130,100,.10); color:#148264">
+        <i class="fa-solid fa-glass-water"></i>
+      </div>
+      <div>
+        <h2 class="serif text-2xl font-bold" style="color:var(--brown)">Soda Series &amp; Tea/Juice Based</h2>
+        <p class="text-xs" style="color:var(--muted)">16oz refreshing drinks</p>
+      </div>
+      <div class="cat-divider hidden md:block"></div>
+    </div>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+
+      <div class="menu-item p-5 reveal d1">
+        <h3 class="font-semibold text-sm mb-1" style="color:var(--brown)">Green Apple Ade</h3>
+        <p class="text-xs mb-3" style="color:var(--muted)">Refreshing apple soda</p>
+        <div class="size-row"><span class="size-label">16oz</span><span class="price-val">₱99</span></div>
+      </div>
+
+      <div class="menu-item p-5 reveal d2">
+        <h3 class="font-semibold text-sm mb-1" style="color:var(--brown)">Watermelon Ade</h3>
+        <p class="text-xs mb-3" style="color:var(--muted)">Fresh watermelon soda</p>
+        <div class="size-row"><span class="size-label">16oz</span><span class="price-val">₱110</span></div>
+      </div>
+
+      <div class="menu-item p-5 reveal d3">
+        <h3 class="font-semibold text-sm mb-1" style="color:var(--brown)">Blueberry Ade</h3>
+        <p class="text-xs mb-3" style="color:var(--muted)">Blueberry fizz soda</p>
+        <div class="size-row"><span class="size-label">16oz</span><span class="price-val">₱110</span></div>
+      </div>
+
+      <div class="menu-item p-5 reveal d4">
+        <h3 class="font-semibold text-sm mb-1" style="color:var(--brown)">Strawberry Mojitito</h3>
+        <p class="text-xs mb-3" style="color:var(--muted)">Strawberry mint fizz</p>
+        <div class="size-row"><span class="size-label">16oz</span><span class="price-val">₱110</span></div>
+      </div>
+
+      <div class="menu-item p-5 reveal d5">
+        <h3 class="font-semibold text-sm mb-1" style="color:var(--brown)">Honey Cucumber Tea</h3>
+        <p class="text-xs mb-3" style="color:var(--muted)">w/ Green Tea</p>
+        <div class="size-row"><span class="size-label">16oz</span><span class="price-val">₱120</span></div>
+      </div>
+
+      <div class="menu-item p-5 reveal d6">
+        <h3 class="font-semibold text-sm mb-1" style="color:var(--brown)">Hibiscus Tea</h3>
+        <p class="text-xs mb-3" style="color:var(--muted)">w/ Honey &amp; Cranberry</p>
+        <div class="size-row"><span class="size-label">16oz</span><span class="price-val">₱115</span></div>
+      </div>
+
+      <div class="menu-item p-5 reveal d7">
+        <h3 class="font-semibold text-sm mb-1" style="color:var(--brown)">Cuddles on the Beach</h3>
+        <p class="text-xs mb-3" style="color:var(--muted)">Orange, Peach &amp; Cranberry</p>
+        <div class="size-row"><span class="size-label">16oz</span><span class="price-val">₱115</span></div>
+      </div>
+
+      <div class="menu-item p-5 reveal d8">
+        <h3 class="font-semibold text-sm mb-1" style="color:var(--brown)">Virgin Sunrise</h3>
+        <p class="text-xs mb-3" style="color:var(--muted)">Orange &amp; Pineapple</p>
+        <div class="size-row"><span class="size-label">16oz</span><span class="price-val">₱125</span></div>
+      </div>
+
+    </div>
+  </div>
+
+</div><!-- end drinks -->
+
+<!-- ═══ ADD-ONS ═══ -->
+<div id="addons" class="py-14" style="background:var(--cream2)">
+  <div class="max-w-6xl mx-auto px-5 md:px-10">
+    <div class="cat-header reveal mb-8">
+      <div class="cat-icon" style="background:rgba(160,82,45,.12); color:var(--amber)">
+        <i class="fa-solid fa-plus"></i>
+      </div>
+      <div>
+        <h2 class="serif text-2xl font-bold" style="color:var(--brown)">Drink Add-Ons &amp; Sinkers</h2>
+        <p class="text-xs" style="color:var(--muted)">Customize your drink · Can request DECAF</p>
+      </div>
+      <div class="cat-divider hidden md:block"></div>
+    </div>
+    <div class="flex flex-wrap gap-3 reveal">
+      <div class="addon-pill"><i class="fa-solid fa-circle-plus"></i>Espresso Shot <strong class="ml-1">+₱25</strong></div>
+      <div class="addon-pill"><i class="fa-solid fa-droplet"></i>Oat / Soy Milk <strong class="ml-1">+₱30</strong></div>
+      <div class="addon-pill"><i class="fa-solid fa-v"></i>Vanilla Syrup <strong class="ml-1">+₱10</strong></div>
+      <div class="addon-pill"><i class="fa-solid fa-jar"></i>Honey <strong class="ml-1">+₱20</strong></div>
+      <div class="addon-pill"><i class="fa-solid fa-circle"></i>Boba Pearls <strong class="ml-1">+₱10</strong></div>
+      <div class="addon-pill"><i class="fa-solid fa-cubes-stacked"></i>Nata de Coco <strong class="ml-1">+₱10</strong></div>
+      <div class="addon-pill" style="background:rgba(59,31,14,.08); border-color:rgba(59,31,14,.18); color:var(--brown)"><i class="fa-solid fa-ban"></i>DECAF on request</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ FOOD ═══ -->
+<div id="food" class="max-w-6xl mx-auto px-5 md:px-10 py-16">
+
+  <!-- ── ALL-DAY BREAKFAST ── -->
+  <div class="mb-16">
+    <div class="cat-header reveal">
+      <div class="cat-icon" style="background:rgba(200,150,20,.12); color:#c89614">
+        <i class="fa-solid fa-egg"></i>
+      </div>
+      <div>
+        <h2 class="serif text-2xl font-bold" style="color:var(--brown)">All-Day Breakfast</h2>
+        <p class="text-xs" style="color:var(--muted)">Silog meals &amp; more · Para sa mataTAPAng!</p>
+      </div>
+      <div class="cat-divider"></div>
+    </div>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+
+      <div class="menu-item p-5 reveal d1" style="border-color:rgba(160,82,45,.22)">
+        <div class="flex items-start gap-3 mb-3">
+          <div class="item-icon" style="background:rgba(200,150,20,.12); color:#c89614"><i class="fa-solid fa-bacon" style="font-size:.85rem"></i></div>
+          <div>
+            <div class="flex items-center gap-2">
+              <h3 class="font-semibold text-base" style="color:var(--brown)">Tapsilog</h3>
+              <span class="text-[9px] font-bold px-1.5 py-0.5 rounded" style="background:var(--amber); color:#fff">STAR</span>
+            </div>
+            <p class="text-xs" style="color:var(--muted)">Beef tapa, sinangag, itlog</p>
+          </div>
+        </div>
+        <div class="size-row"><span class="size-label">Per Order</span><span class="price-val">₱180</span></div>
+      </div>
+
+      <div class="menu-item p-5 reveal d2">
+        <div class="flex items-start gap-3 mb-3">
+          <div class="item-icon" style="background:rgba(200,150,20,.12); color:#c89614"><i class="fa-solid fa-drumstick-bite" style="font-size:.85rem"></i></div>
+          <div><h3 class="font-semibold text-base" style="color:var(--brown)">Chicken Rice</h3><p class="text-xs" style="color:var(--muted)">Chicken, sinangag, itlog</p></div>
+        </div>
+        <div class="size-row"><span class="size-label">Per Order</span><span class="price-val">₱180</span></div>
+      </div>
+
+      <div class="menu-item p-5 reveal d3">
+        <div class="flex items-start gap-3 mb-3">
+          <div class="item-icon" style="background:rgba(200,150,20,.12); color:#c89614"><i class="fa-solid fa-fish" style="font-size:.85rem"></i></div>
+          <div><h3 class="font-semibold text-base" style="color:var(--brown)">Bangsilog</h3><p class="text-xs" style="color:var(--muted)">Bangus, sinangag, itlog</p></div>
+        </div>
+        <div class="size-row"><span class="size-label">Per Order</span><span class="price-val">₱180</span></div>
+      </div>
+
+      <div class="menu-item p-5 reveal d4">
+        <div class="flex items-start gap-3 mb-3">
+          <div class="item-icon" style="background:rgba(200,150,20,.12); color:#c89614"><i class="fa-solid fa-hotdog" style="font-size:.85rem"></i></div>
+          <div><h3 class="font-semibold text-base" style="color:var(--brown)">Franksilog</h3><p class="text-xs" style="color:var(--muted)">Hotdog, sinangag, itlog</p></div>
+        </div>
+        <div class="size-row"><span class="size-label">Per Order</span><span class="price-val">₱140</span></div>
+      </div>
+
+      <div class="menu-item p-5 reveal d5">
+        <div class="flex items-start gap-3 mb-3">
+          <div class="item-icon" style="background:rgba(200,150,20,.12); color:#c89614"><i class="fa-solid fa-egg" style="font-size:.85rem"></i></div>
+          <div><h3 class="font-semibold text-base" style="color:var(--brown)">Sausage &amp; Eggs</h3><p class="text-xs" style="color:var(--muted)">Sausage with fried eggs</p></div>
+        </div>
+        <div class="size-row"><span class="size-label">Per Order</span><span class="price-val">₱160</span></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── SNACKS & PASTA ── -->
+  <div class="mb-16">
+    <div class="cat-header reveal">
+      <div class="cat-icon" style="background:rgba(180,60,60,.10); color:#b43c3c">
+        <i class="fa-solid fa-plate-wheat"></i>
+      </div>
+      <div>
+        <h2 class="serif text-2xl font-bold" style="color:var(--brown)">Snacks &amp; Pasta</h2>
+        <p class="text-xs" style="color:var(--muted)">Perfect for sharing</p>
+      </div>
+      <div class="cat-divider"></div>
+    </div>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+
+      <div class="menu-item p-5 reveal d1">
+        <h3 class="font-semibold text-sm mb-1" style="color:var(--brown)">Beef Nachos</h3>
+        <p class="text-xs mb-3" style="color:var(--muted)">Loaded beef nacho platter</p>
+        <div class="size-row"><span class="size-label">Per Order</span><span class="price-val">₱180</span></div>
+      </div>
+
+      <div class="menu-item p-5 reveal d2">
+        <h3 class="font-semibold text-sm mb-1" style="color:var(--brown)">Chicken Tenders</h3>
+        <p class="text-xs mb-3" style="color:var(--muted)">Crispy chicken tenders</p>
+        <div class="size-row"><span class="size-label">Per Order</span><span class="price-val">₱150</span></div>
+      </div>
+
+      <div class="menu-item p-5 reveal d3" style="border-color:rgba(160,82,45,.22)">
+        <div class="flex items-center gap-1 mb-1">
+          <h3 class="font-semibold text-sm" style="color:var(--brown)">Beef Lasagna</h3>
+          <span class="text-[9px] font-bold px-1.5 py-0.5 rounded" style="background:var(--amber); color:#fff">FAV</span>
+        </div>
+        <p class="text-xs mb-3" style="color:var(--muted)">Rich meaty layered pasta</p>
+        <div class="size-row"><span class="size-label">Per Order</span><span class="price-val">₱219</span></div>
+      </div>
+
+      <div class="menu-item p-5 reveal d4">
+        <h3 class="font-semibold text-sm mb-1" style="color:var(--brown)">Tenders &amp; Fries</h3>
+        <p class="text-xs mb-3" style="color:var(--muted)">BBQ · Sour Cream · Cheese</p>
+        <div class="size-row"><span class="size-label">Per Order</span><span class="price-val">₱99</span></div>
+      </div>
+
+      <div class="menu-item p-5 reveal d5">
+        <h3 class="font-semibold text-sm mb-1" style="color:var(--brown)">Tuna Pesto</h3>
+        <p class="text-xs mb-3" style="color:var(--muted)">Tuna in creamy pesto</p>
+        <div class="size-row"><span class="size-label">Per Order</span><span class="price-val">₱160</span></div>
+      </div>
+
+      <div class="menu-item p-5 reveal d6">
+        <h3 class="font-semibold text-sm mb-1" style="color:var(--brown)">Chicken Pesto</h3>
+        <p class="text-xs mb-3" style="color:var(--muted)">Chicken in creamy pesto</p>
+        <div class="size-row"><span class="size-label">Per Order</span><span class="price-val">₱180</span></div>
+      </div>
+
+      <div class="menu-item p-5 reveal d7">
+        <h3 class="font-semibold text-sm mb-1" style="color:var(--brown)">Shrimp Pesto</h3>
+        <p class="text-xs mb-3" style="color:var(--muted)">Shrimp in creamy pesto</p>
+        <div class="size-row"><span class="size-label">Per Order</span><span class="price-val">₱219</span></div>
+      </div>
+
+      <div class="menu-item p-5 reveal d8">
+        <h3 class="font-semibold text-sm mb-1" style="color:var(--brown)">Tuna Aglio E Olio</h3>
+        <p class="text-xs mb-3" style="color:var(--muted)">Garlic oil pasta w/ tuna</p>
+        <div class="size-row"><span class="size-label">Per Order</span><span class="price-val">₱150</span></div>
+      </div>
+
+      <div class="menu-item p-5 reveal d1">
+        <h3 class="font-semibold text-sm mb-1" style="color:var(--brown)">Spanish Sardines Aglio</h3>
+        <p class="text-xs mb-3" style="color:var(--muted)">Garlic oil w/ Spanish sardines</p>
+        <div class="size-row"><span class="size-label">Per Order</span><span class="price-val">₱175</span></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── BATCHOY ── -->
+  <div class="mb-16">
+    <div class="cat-header reveal">
+      <div class="cat-icon" style="background:rgba(140,70,20,.12); color:#8c4614">
+        <i class="fa-solid fa-bowl-rice"></i>
+      </div>
+      <div>
+        <h2 class="serif text-2xl font-bold" style="color:var(--brown)">'Lapaz' Batchoy</h2>
+        <p class="text-xs" style="color:var(--muted)">Good for sharing</p>
+      </div>
+      <div class="cat-divider"></div>
+    </div>
+    <div class="grid sm:grid-cols-2 gap-4 max-w-2xl">
+
+      <div class="menu-item p-6 reveal d1">
+        <div class="flex items-start gap-3 mb-4">
+          <div class="item-icon" style="background:rgba(140,70,20,.12); color:#8c4614"><i class="fa-solid fa-bowl-rice"></i></div>
+          <div>
+            <h3 class="font-semibold text-base" style="color:var(--brown)">Regular Batchoy</h3>
+            <p class="text-xs" style="color:var(--muted)">Classic Lapaz without egg &amp; chicharon</p>
+          </div>
+        </div>
+        <div class="size-row"><span class="size-label">Per Serving</span><span class="price-val">₱150</span></div>
+      </div>
+
+      <div class="menu-item p-6 reveal d2" style="border-color:rgba(160,82,45,.22)">
+        <div class="flex items-start gap-3 mb-4">
+          <div class="item-icon" style="background:var(--amber); color:#fff"><i class="fa-solid fa-star"></i></div>
+          <div>
+            <div class="flex items-center gap-2">
+              <h3 class="font-semibold text-base" style="color:var(--brown)">Special Batchoy</h3>
+              <span class="text-[9px] font-bold px-1.5 py-0.5 rounded" style="background:var(--amber); color:#fff">BEST</span>
+            </div>
+            <p class="text-xs" style="color:var(--muted)">With egg &amp; chicharon on top</p>
+          </div>
+        </div>
+        <div class="size-row"><span class="size-label">Per Serving</span><span class="price-val">₱180</span></div>
+      </div>
+
+    </div>
+  </div>
+
+</div><!-- end food -->
+
+<!-- CTA Banner -->
+<div class="py-16" style="background:var(--brown)">
+  <div class="max-w-6xl mx-auto px-5 md:px-10 text-center">
+    <div class="sdiv mx-auto mb-5" style="background:#E8B87A"></div>
+    <h2 class="serif text-3xl md:text-4xl font-bold text-white mb-3">Ready to order?</h2>
+    <p class="text-white/50 text-sm mb-8 max-w-sm mx-auto">Come visit us in Cainta or give us a call — we're open Tue–Sat 11AM–9PM, Sun 4PM–9PM.</p>
+    <div class="flex flex-wrap gap-4 justify-center">
+      <a href="tel:+639095129185" class="btn-amber px-8 py-3.5 text-sm inline-block">
+        <i class="fa-solid fa-phone mr-2" style="font-size:.75rem"></i>+63 909 512 9185
+      </a>
+      <a href="index.html#location" class="btn-ghost px-8 py-3.5 text-sm inline-block">
+        <i class="fa-solid fa-location-dot mr-2" style="font-size:.75rem"></i>Get Directions
+      </a>
+    </div>
+  </div>
+</div>
+</main>
+
+<!-- ═══ FOOTER — identical to index.html ═══ -->
+<footer style="background:#200E04; border-top:1px solid rgba(255,255,255,.04)">
+  <div class="max-w-6xl mx-auto px-5 md:px-10 py-12">
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-8">
+      <div>
+        <div class="flex items-center gap-2.5 mb-3">
+          <div class="w-8 h-8 rounded-lg flex items-center justify-center" style="background:var(--amber)">
+            <i class="fa-solid fa-mug-hot text-white" style="font-size:.75rem"></i>
+          </div>
+          <span class="serif font-bold text-xl text-white">Cafemilya</span>
+        </div>
+        <p class="text-white/28 text-xs max-w-xs leading-relaxed">Warmth &amp; Family in every cup. Cainta, Rizal. Open Tue–Sun.</p>
+      </div>
+      <div class="flex flex-col sm:flex-row gap-8 text-sm">
+        <div>
+          <div class="text-white/40 font-semibold text-xs tracking-widest uppercase mb-3">Navigate</div>
+          <div class="flex flex-col gap-2">
+            <a href="menu.html" class="text-white/28 hover:text-white transition-colors">Menu</a>
+            <a href="index.html#about" class="text-white/28 hover:text-white transition-colors">About</a>
+            <a href="index.html#reviews" class="text-white/28 hover:text-white transition-colors">Reviews</a>
+            <a href="index.html#location" class="text-white/28 hover:text-white transition-colors">Location</a>
+          </div>
+        </div>
+        <div>
+          <div class="text-white/40 font-semibold text-xs tracking-widest uppercase mb-3">Contact</div>
+          <div class="flex flex-col gap-2">
+            <a href="tel:+639095129185" class="text-white/28 hover:text-white transition-colors">+63 909 512 9185</a>
+            <a href="https://facebook.com/cafemilyaph" target="_blank" rel="noopener" class="text-white/28 hover:text-white transition-colors">Facebook</a>
+            <a href="https://instagram.com/cafemilyaph" target="_blank" rel="noopener" class="text-white/28 hover:text-white transition-colors">Instagram</a>
+          </div>
+        </div>
+      </div>
+      <div class="flex gap-2">
+        <a href="https://facebook.com/cafemilyaph" target="_blank" rel="noopener" aria-label="Cafemilya Facebook page" class="sbtn"><i class="fa-brands fa-facebook-f" style="font-size:.85rem"></i></a>
+        <a href="https://instagram.com/cafemilyaph" target="_blank" rel="noopener" aria-label="Cafemilya Instagram page" class="sbtn"><i class="fa-brands fa-instagram" style="font-size:.85rem"></i></a>
+        <a href="tel:+639095129185" aria-label="Call Cafemilya" class="sbtn"><i class="fa-solid fa-phone" style="font-size:.8rem"></i></a>
+      </div>
+    </div>
+    <div class="mt-10 pt-6 border-t text-center text-xs text-white/15" style="border-color:rgba(255,255,255,.04)">
+      © 2025 Cafemilya. All rights reserved. · Phase 3 Valley View Executive Village, Cainta, Rizal
+    </div>
+  </div>
+</footer>
+
+<script defer>
+  // Mobile nav
+  const ham = document.getElementById('ham'), mob = document.getElementById('mob');
+  ham.addEventListener('click', () => { mob.classList.toggle('open'); ham.setAttribute('aria-expanded', mob.classList.contains('open')); });
+  mob.querySelectorAll('a').forEach(l => l.addEventListener('click', () => mob.classList.remove('open')));
+
+  // Scroll reveal
+  const obs = new IntersectionObserver(e => e.forEach(x => { if (x.isIntersecting) { x.target.classList.add('in'); obs.unobserve(x.target); } }), { threshold: .10 });
+  document.querySelectorAll('.reveal').forEach(r => obs.observe(r));
+
+  // Tab scroll
+  function scrollTo(id) {
+    const el = document.getElementById(id);
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    event.target.classList.add('active');
+  }
+</script>
+</body>
+</html>
